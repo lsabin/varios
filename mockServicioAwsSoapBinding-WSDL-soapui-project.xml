@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="mockServicioAwsSoapBinding?WSDL" resourceRoot="" soapui-version="3.6.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ServicioAwsSoapBinding" type="wsdl" bindingName="{urn:ServicioAws}ServicioAwsSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://chmocks:8088/mockServicioAwsSoapBinding?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://chmocks:8088/mockServicioAwsSoapBinding?WSDL"><con:part><con:url>http://chmocks:8088/mockServicioAwsSoapBinding?WSDL</con:url><con:content><![CDATA[<definitions targetNamespace="urn:ServicioAws" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:impl="urn:ServicioAws" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:intf="urn:ServicioAws">
+  <message name="ejecutarAccionResponse">
+    <part name="ejecutarAccionReturn" type="xsd:string"></part>
+  </message>
+  <message name="ejecutarAccionRequest">
+    <part name="in0" type="xsd:string"></part>
+    <part name="in1" type="xsd:string"></part>
+  </message>
+  <portType name="AwsInterface">
+    <operation name="ejecutarAccion" parameterOrder="in0 in1">
+      <input name="ejecutarAccionRequest" message="impl:ejecutarAccionRequest"></input>
+      <output name="ejecutarAccionResponse" message="impl:ejecutarAccionResponse"></output>
+    </operation>
+  </portType>
+  <binding name="ServicioAwsSoapBinding" type="impl:AwsInterface">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="ejecutarAccion">
+      <wsdlsoap:operation soapAction=""/>
+      <input name="ejecutarAccionRequest">
+        <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:ServicioAws"/>
+      </input>
+      <output name="ejecutarAccionResponse">
+        <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:ServicioAws"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="AwsInterfaceService">
+    <port name="ServicioAws" binding="impl:ServicioAwsSoapBinding">
+      <wsdlsoap:address location="http://chmocks:8088/mockServicioAwsSoapBinding"/>
+    </port>
+  </service>
+</definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://chmocks:8088/mockServicioAwsSoapBinding</con:endpoint><con:endpoint>http://chinche.optare.loc:8088/mockServicioAwsSoapBinding</con:endpoint><con:endpoint>http://localhost:8088/mockAws</con:endpoint><con:endpoint>http://chinventario.optare.loc:9081/axis/services/ServicioAws</con:endpoint><con:endpoint>http://chaspar:8088/mockAws</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="ejecutarAccion" bindingOperationName="ejecutarAccion" type="Request-Response" outputName="ejecutarAccionResponse" inputName="ejecutarAccionRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://chaspar:8088/mockAws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:ServicioAws">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <urn:ejecutarAccion soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+         <in0 xsi:type="xsd:string">getPuertosVdsl2Libres</in0>
+         <in1 xsi:type="xsd:string">codMiga=3620001</in1>
+      </urn:ejecutarAccion>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:ServicioAws/AwsInterface/ejecutarAccionRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:mockService port="8088" path="/mockAws" host="CHASPAR" name="MockService 1" bindToHostOnly="false" docroot=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:mockOperation name="ejecutarAccion" interface="ServicioAwsSoapBinding" operation="ejecutarAccion"><con:settings/><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:defaultResponse>Response 1</con:defaultResponse><con:response name="Response 1" encoding="UTF-8"><con:settings/><con:script>def groovyUtils = new com.eviware.soapui.support.GroovyUtils(context)
+def holder = groovyUtils.getXmlHolder(mockRequest.requestContent)
+
+def content = new XmlSlurper().parseText(mockRequest.requestContent)
+
+def operacion = content.Body.ejecutarAccion.in0
+String parametroEntrada = content.Body.ejecutarAccion.in1
+
+def codigoMiga = ""
+
+if (parametroEntrada) {
+	def parametros = parametroEntrada.split('=')
+	if (parametros &amp;&amp; parametros.size() == 2) {
+		codigoMiga = parametros[1]
+	}
+}
+
+
+def puertosLibres = 'false'
+def resultado = ''
+if (codigoMiga) {
+	if (codigoMiga == '3620001' || codigoMiga == '0110096') {
+		puertosLibres = 'true';
+	} else if (codigoMiga == '3620002') {
+		puertosLibres = 'false';
+	} else if (codigoMiga == '3620003') {
+		puertosLibres = 'xx';
+	}
+	resultado = "errorCode=000, errorDesc=Ejecución realizada con exito,puertosVdsl2Libres=$puertosLibres"
+	
+
+} else {
+	resultado = "errorCode=001, errorDesc=no hay codigo miga"
+}
+
+
+
+context.resultado="${resultado}"</con:script><con:responseContent><![CDATA[<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:ServicioAws">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <urn:ejecutarAccionResponse soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+         <ejecutarAccionReturn xsi:type="xsd:string">${resultado}</ejecutarAccionReturn>
+      </urn:ejecutarAccionResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:ServicioAws/AwsInterface/ejecutarAccionResponse"/></con:response><con:dispatchConfig/></con:mockOperation><con:properties/></con:mockService><con:properties/><con:wssContainer/></con:soapui-project>
